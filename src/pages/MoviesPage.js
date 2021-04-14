@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import SearchForm from '../component/SearchForm';
+// import { Link } from 'react-router-dom';
 import Axios from 'axios';
+
+import SearchForm from '../component/SearchForm';
+import MoviesList from '../component/MoviesList';
 
 class MoviesPage extends Component {
   state = { movies: [] };
@@ -21,13 +23,7 @@ class MoviesPage extends Component {
       <>
         <h1>Movie</h1>
         <SearchForm onSubmit={this.onChangeQuery} />
-        <ul>
-          {movies.map(({ title, id }) => (
-            <li key={id}>
-              <Link to={`/movies/${id}`}>{title}</Link>
-            </li>
-          ))}
-        </ul>
+        <MoviesList movies={movies} />
       </>
     );
   }

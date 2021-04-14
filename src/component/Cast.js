@@ -26,10 +26,12 @@ class Cast extends Component {
           {cast.map(({ name, profile_path }) => (
             <li key={name}>
               <p>{name}</p>
-              <img
-                src={`https://image.tmdb.org/t/p/w300/${profile_path}`}
-                alt={name}
-              />
+              {profile_path && (
+                <img
+                  src={`https://image.tmdb.org/t/p/w300/${profile_path}`}
+                  alt={name}
+                />
+              )}
             </li>
           ))}
         </ul>
