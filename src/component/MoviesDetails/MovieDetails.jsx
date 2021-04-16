@@ -1,3 +1,6 @@
+import PropTypes from 'prop-types';
+import styles from './MoviesDetails.module.css';
+
 const MoviesDetails = ({
   poster_path,
   title,
@@ -19,14 +22,25 @@ const MoviesDetails = ({
       <h2>Overview</h2>
       <p>{overview}</p>
       <h2>Genres</h2>
-      <ul>
+      <ul className={styles.movieGenres}>
         {genres.map(({ name }) => (
-          <li key={name}>{name}</li>
+          <li key={name} className={styles.movieGenresItem}>
+            {name}
+          </li>
         ))}
       </ul>
       {poster_path && <img src={imgURL} alt={title} />}
     </>
   );
+};
+
+MoviesDetails.protoTypes = {
+  poster_path: PropTypes.string,
+  title: PropTypes.string,
+  release_date: PropTypes.number,
+  vote_average: PropTypes.number,
+  overview: PropTypes.string,
+  genres: PropTypes.array,
 };
 
 export default MoviesDetails;

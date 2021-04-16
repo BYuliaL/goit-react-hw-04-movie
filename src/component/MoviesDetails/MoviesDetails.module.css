@@ -1,0 +1,9 @@
+.movieGenres {
+  display: flex;
+}
+
+/* .movieGenresItem {
+} */
+.movieGenresItem:not(:last-child) {
+  margin-right: 5px;
+}

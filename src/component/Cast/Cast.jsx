@@ -13,19 +13,18 @@ class Cast extends Component {
     );
     console.log(response.data.cast);
     this.setState({ cast: response.data.cast });
-    console.log(this.state.cast);
   }
 
   render() {
     const { cast } = this.state;
-    // console.log(this.props.match.url);
 
     return (
       <>
         <ul>
-          {cast.map(({ name, profile_path }) => (
+          {cast.map(({ name, profile_path, character }) => (
             <li key={name}>
-              <p>{name}</p>
+              <h3>{name}</h3>
+              <p>{character}</p>
               {profile_path && (
                 <img
                   src={`https://image.tmdb.org/t/p/w300/${profile_path}`}

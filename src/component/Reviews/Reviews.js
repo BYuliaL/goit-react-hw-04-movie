@@ -14,12 +14,10 @@ class Reviews extends Component {
     );
     console.log(response.data.results);
     this.setState({ reviews: response.data.results });
-    // console.log(this.state.reviews);
   }
 
   render() {
     const { reviews } = this.state;
-    // console.log(this.props.match.url);
 
     return (
       <>

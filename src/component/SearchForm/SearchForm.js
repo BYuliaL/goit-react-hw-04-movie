@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 
 class SearchForm extends Component {
   state = {
@@ -12,8 +13,15 @@ class SearchForm extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    console.log(this.state.query);
-    this.props.onSubmit(this.state.query);
+    if (this.state.query) {
+      this.props.onSubmit(this.state.query);
+    } else if (!this.state.query) {
+      alert('Write something to start search');
+    }
+
+    this.props.history.push({
+      search: `query=${this.state.query}`,
+    });
 
     this.setState({ query: '' });
   };
@@ -25,8 +33,8 @@ class SearchForm extends Component {
           value={this.state.query}
           onChange={this.handleChange}
           type="text"
-          // autocomplete="off"
-          // autofocus
+          autoComplete="off"
+          autoFocus
           placeholder="Search movies"
         />
 
@@ -38,4 +46,4 @@ class SearchForm extends Component {
   }
 }
 
-export default SearchForm;
+export default withRouter(SearchForm);
