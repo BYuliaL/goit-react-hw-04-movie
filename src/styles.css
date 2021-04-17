@@ -25,6 +25,8 @@ ul {
 
 .inform {
   display: flex;
+  justify-content: center;
+  padding-left: 0px;
 }
 
 .informItem:not(:last-child) {
@@ -34,8 +36,25 @@ ul {
 .detailsInform {
   text-decoration: none;
   font-size: 30px;
+  color: black;
+}
+
+.detailsInform:focus {
+  color: green;
 }
 
 .active {
   color: seagreen;
+}
+
+.mainTitle {
+  display: flex;
+  justify-content: center;
+}
+
+.titleInf {
+  display: flex;
+  justify-content: center;
+  color: seagreen;
+  font-size: 30px;
 }

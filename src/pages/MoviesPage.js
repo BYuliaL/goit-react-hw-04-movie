@@ -1,40 +1,48 @@
 import React, { Component } from 'react';
-import Axios from 'axios';
 import queryString from 'query-string';
 
+import ApiServices from '../services/api-services';
 import SearchForm from '../component/SearchForm/SearchForm';
 import MoviesList from '../component/MoviesList';
-
-const apiKey = 'bfc0b177c45bde411d6d53ddc48eee25';
+import Spinner from '../component/Spinner';
 
 class MoviesPage extends Component {
   state = {
     query: '',
     movies: [],
+    error: null,
+    isLoading: false,
   };
 
   componentDidMount() {
-    const queryParams = queryString.parse(this.props.location.search);
+    const { search } = this.props.location;
+    const queryParams = queryString.parse(search);
+
     if (queryParams?.query) {
-      Axios.get(
-        `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=en-US&include_adult=false&query=${queryParams.query}`,
-      ).then(response => this.setState({ movies: response.data.results }));
+      this.setState({ isLoading: true });
+      ApiServices.apiSearchMovie(queryParams.query)
+        .then(movies => this.setState({ movies: movies }))
+        .catch(error => this.setState(error))
+        .finally(() => this.setState({ isLoading: false }));
     }
   }
 
   onChangeQuery = query => {
-    Axios.get(
-      `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}&language=en-US&page=1&include_adult=false`,
-    ).then(response => {
-      this.setState({ movies: response.data.results });
-    });
+    this.setState({ isLoading: true });
+
+    ApiServices.apiSearchMovie(query)
+      .then(movies => this.setState({ movies: movies }))
+      .catch(error => this.setState(error))
+      .finally(() => this.setState({ isLoading: false }));
   };
 
   render() {
-    const { movies } = this.state;
+    const { movies, error, isLoading } = this.state;
     return (
       <>
+        {error && <p>Whoops, something went wrong: {error.message}</p>}
         <SearchForm onSubmit={this.onChangeQuery} query={this.state.query} />
+        {isLoading && <Spinner />}
         <MoviesList movies={movies} />
       </>
     );

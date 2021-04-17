@@ -1,12 +1,19 @@
-import { Component } from 'react';
+import { Component, Suspense, lazy } from 'react';
 import { NavLink, Route } from 'react-router-dom';
-import Axios from 'axios';
+import apiServices from '../services/api-services';
 
-import Cast from '../component/Cast';
-import Reviews from '../component/Reviews/Reviews';
 import MoviesDetails from '../component/MoviesDetails';
 import Button from '../component/Button/Button';
+// import Information from '../component/Information';
 import routes from '../routes';
+
+const Cast = lazy(() =>
+  import('../component/Cast' /* webpackChunkName: "cast-page" */),
+);
+
+const Reviews = lazy(() =>
+  import('../component/Reviews' /* webpackChunkName: "reviews-page" */),
+);
 
 class MovieDetailsPage extends Component {
   state = {
@@ -17,15 +24,16 @@ class MovieDetailsPage extends Component {
     vote_average: null,
     overview: null,
     genres: [],
+    error: null,
   };
 
-  async componentDidMount() {
+  componentDidMount() {
     const { movieId } = this.props.match.params;
-    const response = await Axios.get(
-      `https://api.themoviedb.org/3/movie/${movieId}?api_key=bfc0b177c45bde411d6d53ddc48eee25&language=en-US`,
-    );
-    this.setState({ ...response.data });
-    this.setState({ release_date: this.state.release_date.slice(0, 4) });
+
+    apiServices
+      .apiDetails(movieId)
+      .then(genres => this.setState({ ...genres }))
+      .then(error => this.setState(error));
   }
 
   handleGoBack = () => {
@@ -39,42 +47,46 @@ class MovieDetailsPage extends Component {
   };
 
   render() {
+    const { poster_path, error } = this.state;
     const { match, location } = this.props;
     return (
       <>
+        {error && <p>Whoops, something went wrong: {error.message}</p>}
         <Button onClick={this.handleGoBack} />
-        <MoviesDetails {...this.state} />
-
-        <h2>Additional information</h2>
-        <ul className="inform">
-          <li className="informItem">
-            <NavLink
-              className="detailsInform"
-              activeClassName="active"
-              to={{
-                pathname: `${match.url}/cast`,
-                state: { from: location?.state?.from },
-              }}
-            >
-              Cast
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              className="detailsInform"
-              activeClassName="active"
-              to={{
-                pathname: `${match.url}/reviews`,
-                state: { from: location?.state?.from },
-              }}
-            >
-              Reviews
-            </NavLink>
-          </li>
-        </ul>
-
-        <Route path={`${match.path}/cast`} component={Cast} />
-        <Route path={`${match.path}/reviews`} component={Reviews} />
+        {poster_path && <MoviesDetails {...this.state} />}
+        <div>
+          <h2 className="titleInf">Additional information</h2>
+          <ul className="inform">
+            <li className="informItem">
+              <NavLink
+                className="detailsInform"
+                activeClassName="active"
+                to={{
+                  pathname: `${match.url}/cast`,
+                  state: { from: location?.state?.from },
+                }}
+              >
+                Cast
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className="detailsInform"
+                activeClassName="active"
+                to={{
+                  pathname: `${match.url}/reviews`,
+                  state: { from: location?.state?.from },
+                }}
+              >
+                Reviews
+              </NavLink>
+            </li>
+          </ul>
+        </div>
+        <Suspense fallback={<h1>Loading...</h1>}>
+          <Route path={`${match.path}/cast`} component={Cast} />
+          <Route path={`${match.path}/reviews`} component={Reviews} />
+        </Suspense>{' '}
       </>
     );
   }

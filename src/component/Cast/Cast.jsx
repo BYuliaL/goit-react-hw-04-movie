@@ -1,41 +1,35 @@
 import React, { Component } from 'react';
-import Axios from 'axios';
-import styles from './Cast.module.css';
+
+import Spiner from '../Spinner';
+import CastList from '../CastList';
+import apiServices from '../../services/api-services';
 
 class Cast extends Component {
   state = {
     cast: [],
+    error: null,
+    isLoading: false,
   };
 
-  async componentDidMount() {
+  componentDidMount() {
     const { movieId } = this.props.match.params;
-    const response = await Axios.get(
-      `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=bfc0b177c45bde411d6d53ddc48eee25&language=en-US`,
-    );
-    console.log(response.data.cast);
-    this.setState({ cast: response.data.cast });
+    this.setState({ isLoading: true });
+
+    apiServices
+      .apiCast(movieId)
+      .then(cast => this.setState({ cast: cast }))
+      .catch(error => this.setState(error))
+      .finally(() => this.setState({ isLoading: false }));
   }
 
   render() {
-    const { cast } = this.state;
+    const { cast, error, isLoading } = this.state;
 
     return (
       <>
-        <ul className={styles.castList}>
-          {cast.map(({ name, profile_path, character }) => (
-            <li key={name} className={styles.castItem}>
-              {profile_path && (
-                <img
-                  className={styles.castImg}
-                  src={`https://image.tmdb.org/t/p/w300/${profile_path}`}
-                  alt={name}
-                />
-              )}
-              <h3>{name}</h3>
-              <p>{character}</p>
-            </li>
-          ))}
-        </ul>
+        {error && <p>Whoops, something went wrong: {error.message}</p>}
+        {isLoading && <Spiner />}
+        <CastList cast={cast} />
       </>
     );
   }

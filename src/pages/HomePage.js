@@ -1,26 +1,34 @@
 import React, { Component } from 'react';
-import Axios from 'axios';
+import apiServices from '../services/api-services';
 
 import MoviesList from '../component/MoviesList';
+import Spinner from '../component/Spinner';
 
 export default class HomePage extends Component {
   state = {
     movies: [],
+    error: null,
+    isLoading: false,
   };
 
-  async componentDidMount() {
-    const response = await Axios.get(
-      'https://api.themoviedb.org/3/trending/movie/day?api_key=bfc0b177c45bde411d6d53ddc48eee25',
-    );
-    this.setState({ movies: response.data.results });
+  componentDidMount() {
+    this.setState({ isLoading: true });
+
+    apiServices
+      .apiTrendMovies()
+      .then(movies => this.setState({ movies: movies }))
+      .catch(error => this.setState(error))
+      .finally(() => this.setState({ isLoading: false }));
   }
 
   render() {
-    const { movies } = this.state;
+    const { movies, error, isLoading } = this.state;
 
     return (
       <>
-        <h1>Trending today</h1>
+        {error && <p>Whoops, something went wrong: {error.message}</p>}
+        <h1 className="mainTitle">Trending today</h1>
+        {isLoading && <Spinner />}
         <MoviesList movies={movies} />
       </>
     );
