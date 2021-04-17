@@ -1,9 +1,16 @@
+.movieInformation {
+  display: flex;
+  padding: 20px 0px;
+}
+
+.movieInformationCard:first-child {
+  margin-right: 20px;
+}
+
 .movieGenres {
   display: flex;
 }
 
-/* .movieGenresItem {
-} */
 .movieGenresItem:not(:last-child) {
   margin-right: 5px;
 }

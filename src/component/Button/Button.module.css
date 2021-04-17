@@ -1,0 +1,9 @@
+.buttonGoBack {
+  padding-top: 15px;
+}
+
+.button {
+  height: 30px;
+  font-size: 20px;
+  background-color: lightgreen;
+}

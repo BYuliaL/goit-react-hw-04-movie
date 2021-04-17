@@ -9,12 +9,24 @@ const MoviesList = ({ movies, location }) => {
       {movies.map(({ title, id, poster_path }) => (
         <li key={id} className={styles.movieItem}>
           <Link
+            className={styles.movieItemLink}
             to={{
               pathname: `${routes.movies}/${id}`,
               state: { from: location },
             }}
           >
-            <h2>{title}</h2>
+            <div className={styles.movieCardImg}>
+              {' '}
+              {poster_path && (
+                <img
+                  className={styles.movieImg}
+                  src={`https://image.tmdb.org/t/p/w300/${poster_path}`}
+                  alt={title}
+                />
+              )}
+            </div>
+
+            <h2 className={styles.movieCardTitle}>{title}</h2>
           </Link>
         </li>
       ))}

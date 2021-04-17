@@ -5,6 +5,7 @@ import Axios from 'axios';
 import Cast from '../component/Cast';
 import Reviews from '../component/Reviews/Reviews';
 import MoviesDetails from '../component/MoviesDetails';
+import Button from '../component/Button/Button';
 import routes from '../routes';
 
 class MovieDetailsPage extends Component {
@@ -41,16 +42,15 @@ class MovieDetailsPage extends Component {
     const { match, location } = this.props;
     return (
       <>
-        <button type="button" onClick={this.handleGoBack}>
-          Go back
-        </button>
-
+        <Button onClick={this.handleGoBack} />
         <MoviesDetails {...this.state} />
 
         <h2>Additional information</h2>
-        <ul>
-          <li>
+        <ul className="inform">
+          <li className="informItem">
             <NavLink
+              className="detailsInform"
+              activeClassName="active"
               to={{
                 pathname: `${match.url}/cast`,
                 state: { from: location?.state?.from },
@@ -61,6 +61,8 @@ class MovieDetailsPage extends Component {
           </li>
           <li>
             <NavLink
+              className="detailsInform"
+              activeClassName="active"
               to={{
                 pathname: `${match.url}/reviews`,
                 state: { from: location?.state?.from },

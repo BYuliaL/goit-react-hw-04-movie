@@ -1,0 +1,14 @@
+.NavLink {
+  text-decoration: none;
+  font-size: 40px;
+  color: black;
+}
+
+.NavLink:first-child {
+  margin-right: 15px;
+}
+
+.NavLinkActive {
+  color: seagreen;
+  font-weight: 500;
+}

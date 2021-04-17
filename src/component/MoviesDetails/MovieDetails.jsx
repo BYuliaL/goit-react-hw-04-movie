@@ -14,23 +14,28 @@ const MoviesDetails = ({
   const imgURL = baseURL + poster_path;
 
   return (
-    <>
-      <h1>
-        {title}({release_date})
-      </h1>
-      <p>User Score: {scope}%</p>
-      <h2>Overview</h2>
-      <p>{overview}</p>
-      <h2>Genres</h2>
-      <ul className={styles.movieGenres}>
-        {genres.map(({ name }) => (
-          <li key={name} className={styles.movieGenresItem}>
-            {name}
-          </li>
-        ))}
-      </ul>
-      {poster_path && <img src={imgURL} alt={title} />}
-    </>
+    <div className={styles.movieInformation}>
+      <div className={styles.movieInformationCard}>
+        {poster_path && <img src={imgURL} alt={title} />}
+      </div>
+
+      <div className={styles.movieInformationCard}>
+        <h2>
+          {title} ({release_date})
+        </h2>
+        <h3>User Score: {scope}%</h3>
+        <h2>Overview</h2>
+        <p>{overview}</p>
+        <h2>Genres</h2>
+        <ul className={styles.movieGenres}>
+          {genres.map(({ name }) => (
+            <li key={name} className={styles.movieGenresItem}>
+              {name}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
   );
 };
 

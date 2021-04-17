@@ -8,7 +8,7 @@ body {
 
 img {
   display: block;
-  max-width: 100%;
+  /* max-width: 100%; */
   height: auto;
 }
 
@@ -16,11 +16,26 @@ ul {
   list-style: none;
 }
 
-.NavLink {
-  font-size: 20px;
-  color: black;
+#root {
+  background-color: #ffff;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 15px;
 }
 
-.NavLink--active {
-  color: darkred;
+.inform {
+  display: flex;
+}
+
+.informItem:not(:last-child) {
+  margin-right: 20px;
+}
+
+.detailsInform {
+  text-decoration: none;
+  font-size: 30px;
+}
+
+.active {
+  color: seagreen;
 }

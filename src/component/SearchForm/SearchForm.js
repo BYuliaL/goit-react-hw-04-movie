@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import styles from './SearchForm.module.css';
 
 class SearchForm extends Component {
   state = {
@@ -28,8 +29,9 @@ class SearchForm extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} className={styles.form}>
         <input
+          className={styles.formInput}
           value={this.state.query}
           onChange={this.handleChange}
           type="text"
@@ -38,7 +40,7 @@ class SearchForm extends Component {
           placeholder="Search movies"
         />
 
-        <button type="submit">
+        <button type="submit" className={styles.formButton}>
           <span>Search</span>
         </button>
       </form>

@@ -1,0 +1,19 @@
+.form {
+  margin-top: 15px;
+  font-size: 25px;
+  margin-bottom: 25px;
+}
+
+.formInput {
+  width: 300px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.formButton {
+  height: 40px;
+}
+
+.formButton:hover {
+  background: seagreen;
+}
