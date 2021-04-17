@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack://src/component/MoviesDetails/MoviesDetails.module.css"],"names":[],"mappings":"AAAA,kCACE,oBAAa,CAAb,YACF,CAIA,uDACE,gBACF","file":"movieDetails-page.dfae4f78.chunk.css","sourcesContent":[".movieGenres {\r\n  display: flex;\r\n}\r\n\r\n/* .movieGenresItem {\r\n} */\r\n.movieGenresItem:not(:last-child) {\r\n  margin-right: 5px;\r\n}\r\n"]}
