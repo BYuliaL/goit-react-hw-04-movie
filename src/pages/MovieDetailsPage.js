@@ -1,10 +1,10 @@
 import { Component, Suspense, lazy } from 'react';
-import { NavLink, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import apiServices from '../services/api-services';
 
 import MoviesDetails from '../component/MoviesDetails';
 import Button from '../component/Button/Button';
-// import Information from '../component/Information';
+import NavInf from '../component/NavInf/NavInf';
 import routes from '../routes';
 
 const Cast = lazy(() =>
@@ -33,7 +33,7 @@ class MovieDetailsPage extends Component {
     apiServices
       .apiDetails(movieId)
       .then(genres => this.setState({ ...genres }))
-      .then(error => this.setState(error));
+      .catch(error => this.setState(error));
   }
 
   handleGoBack = () => {
@@ -48,13 +48,14 @@ class MovieDetailsPage extends Component {
 
   render() {
     const { poster_path, error } = this.state;
-    const { match, location } = this.props;
+    const { match } = this.props;
     return (
       <>
         {error && <p>Whoops, something went wrong: {error.message}</p>}
         <Button onClick={this.handleGoBack} />
         {poster_path && <MoviesDetails {...this.state} />}
-        <div>
+        <NavInf />
+        {/* <div>
           <h2 className="titleInf">Additional information</h2>
           <ul className="inform">
             <li className="informItem">
@@ -82,7 +83,7 @@ class MovieDetailsPage extends Component {
               </NavLink>
             </li>
           </ul>
-        </div>
+        </div> */}
         <Suspense fallback={<h1>Loading...</h1>}>
           <Route path={`${match.path}/cast`} component={Cast} />
           <Route path={`${match.path}/reviews`} component={Reviews} />
